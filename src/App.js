@@ -4,8 +4,8 @@ import WorkTime from "./components/WorkTime";
 
 function App() {
   const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth()}/${current.getFullYear()}`;
-  const date2 = current.toLocaleDateString();
+  // const date = `${current.getDate()}/${current.getMonth()}/${current.getFullYear()}`;
+  const date = current.toLocaleDateString();
   const day = current.getDay();
 
   const days = [
