@@ -1,15 +1,23 @@
 import React from "react";
 
-const History = () => {
+const History = ({ monthSummary }) => {
+  console.log(monthSummary);
+
   return (
     <div>
-      <h3>Historia</h3>
+      <h2>Historia</h2>
       <div>
-        <p>Data</p>
-        <p>Dzień</p>
-        <p>Od</p>
-        <p>Do</p>
-        <p>Suma</p>
+        {monthSummary.map((history, index) => {
+          return (
+            <div key={index}>
+              <h3>{history.date}</h3>
+              <h4>{history.day}</h4>
+              {history.start ? <p>Rozpoczęcie: {history.start}</p> : ""}
+              {history.finish ? <p>Zakończenie: {history.finish}</p> : ""}
+              {history.time ? <p>Liczba godzin: {history.time}</p> : ""}
+            </div>
+          );
+        })}
       </div>
       <div className="note">
         <button>Dodaj notatkę</button>

@@ -1,6 +1,6 @@
 import "./App.css";
-import History from "./components/History";
 import WorkTime from "./components/WorkTime";
+import Days from "./components/Days";
 
 function App() {
   const current = new Date();
@@ -21,9 +21,8 @@ function App() {
   return (
     <div className="App">
       <div>
-        <h3>{days[day - 1]}</h3>
-        <h4>{date}</h4>
-        <WorkTime date={date} />
+        <Days />
+        <WorkTime date={date} day={day} days={days} />
       </div>
     </div>
   );
