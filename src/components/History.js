@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const History = ({ monthSummary }) => {
   console.log(monthSummary);
+
+  useEffect(() => {}, [monthSummary]);
 
   return (
     <div>

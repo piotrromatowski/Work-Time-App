@@ -19,6 +19,8 @@ const WorkTime = ({ date }) => {
 
   const [monthSummary, setMonthSummary] = useState([{}]);
 
+  const [flag, setFlag] = useState(false);
+
   const currentDate = new Date();
   // const actualMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
 
@@ -60,50 +62,31 @@ const WorkTime = ({ date }) => {
   }, [dayOverall, hours, minutes, monthSummary]);
 
   const saveWorkTimeOnClick = () => {
-    console.log(
-      "!!!!!!!!!!!!!!",
-      monthSummary[monthSummary.length - 1].date,
-      date,
-      monthSummary[monthSummary.length - 1].time,
-      dayOverall
-    );
-    if (monthSummary[monthSummary.length - 1].time === dayOverall) {
-      const temp = [...monthSummary];
-      temp.splice(temp[temp.length - 1], 1);
-      setMonthSummary(temp);
+    setMonthSummary([
+      ...monthSummary,
+      {
+        date: date,
+        day: `${showDay(date)}`,
+        time: dayOverall,
+        start: `${workStartHours.starthours}:${workStartMinutes.startminutes}`,
+        finish: `${workFinishHours.finishhours}:${workFinishMinutes.finishminutes}`,
+      },
+    ]);
+  };
 
-      // setMonthSummary([
-      //   ...monthSummary,
-      //   {
-      //     date: date,
-      //     day: `${showDay(date)}`,
-      //     time: dayOverall,
-      //     start: `${workStartHours.starthours}:${workStartMinutes.startminutes}`,
-      //     finish: `${workFinishHours.finishhours}:${workFinishMinutes.finishminutes}`,
-      //   },
-      // ]);
-    } else {
-      setMonthSummary([
-        ...monthSummary,
-        {
-          date: date,
-          day: `${showDay(date)}`,
-          time: dayOverall,
-          start: `${workStartHours.starthours}:${workStartMinutes.startminutes}`,
-          finish: `${workFinishHours.finishhours}:${workFinishMinutes.finishminutes}`,
-        },
-      ]);
+  const deleteLastRecordOnClick = () => {
+    setFlag(!flag);
+    console.log(monthSummary);
+  };
+  const confrimDeleteLastRecordOnClick = () => {
+    if (monthSummary.length >= 1) {
+      const temp = [...monthSummary];
+      temp.splice(-1, 1);
+      setMonthSummary(temp);
+      console.log(monthSummary);
     }
-    // setMonthSummary([
-    //   ...monthSummary,
-    //   {
-    //     date: date,
-    //     day: `${showDay(date)}`,
-    //     time: dayOverall,
-    //     start: `${workStartHours.starthours}:${workStartMinutes.startminutes}`,
-    //     finish: `${workFinishHours.finishhours}:${workFinishMinutes.finishminutes}`,
-    //   },
-    // ]);
+
+    setFlag(!flag);
   };
 
   return (
@@ -122,6 +105,20 @@ const WorkTime = ({ date }) => {
       <button onClick={saveWorkTimeOnClick}>Zapisz godziny</button>
 
       <Summary monthSummary={monthSummary} />
+      <h2>Historia</h2>
+      <button onClick={deleteLastRecordOnClick}>
+        Usuń ostatni wpis z historii
+      </button>
+      {flag ? (
+        <div>
+          <p>Na pewno chcesz usunąć ostatni wpis? </p>
+          <button onClick={confrimDeleteLastRecordOnClick}>TAK</button>
+          <button onClick={() => setFlag(!flag)}>NIE</button>
+        </div>
+      ) : (
+        ""
+      )}
+
       <History monthSummary={monthSummary} />
     </div>
   );
