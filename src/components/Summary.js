@@ -1,22 +1,27 @@
 import React from "react";
 import moment from "moment";
 
-const Summary = ({ monthSummary }) => {
+const Summary = ({ monthSummaryFromApi }) => {
   const currentDate = new Date();
   const actualMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
   const actualYear = currentDate.getFullYear();
   // const actualMonth = "04";
   // console.log(actualMonth);
+  console.log(monthSummaryFromApi);
 
   const monthHoursArr = [];
-  const foundFullMonthDates = monthSummary.forEach((singleData, index) => {
-    if (index >= 1) {
-      if (singleData.date.slice(3) === `${actualMonth}.${actualYear}`) {
-        monthHoursArr.push(moment.duration(singleData.time).asMinutes());
+  if (monthSummaryFromApi) {
+    const foundFullMonthDates = monthSummaryFromApi.forEach(
+      (singleData, index) => {
+        if (index >= 1) {
+          if (singleData.date.slice(3) === `${actualMonth}.${actualYear}`) {
+            monthHoursArr.push(moment.duration(singleData.time).asMinutes());
+          }
+        }
       }
-    }
-  });
-  // console.log(monthHoursArr);
+    );
+  }
+  console.log(monthHoursArr);
 
   const monthOverall = monthHoursArr.reduce((prev, el) => {
     return prev + el;
