@@ -22,6 +22,7 @@ const WorkTime = ({ date }) => {
   const [monthSummaryFromApi, setMonthSummaryFromApi] = useState();
   const [monthSummaryToApi, setMonthSummaryToApi] = useState();
   const [flag, setFlag] = useState(false);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const currentDate = new Date();
 
   const showDay = (day) => {
@@ -94,14 +95,18 @@ const WorkTime = ({ date }) => {
         console.log(monthSummaryFromApi);
       }, 2000);
     }
+    setConfirmationMessage(`
+    Zapisano ${dayOverall} godzin do dnia ${date} (${showDay(date)})
+  `);
   };
+  console.log(confirmationMessage);
 
   ///// ADD NEW DATA TO API
   async function Connnect() {
     let client = contentfulmanage.createClient({
-      accessToken: "CFPAT-Ysf4XBd_3EXIrJCAJfR5oS4mGQjbw1jYAaYTytNyz54",
+      accessToken: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
     });
-    let space = await client.getSpace("q3smxmystx36");
+    let space = await client.getSpace(process.env.REACT_APP_SPACE_ID);
     return await space.getEnvironment("master");
   }
 
@@ -120,7 +125,7 @@ const WorkTime = ({ date }) => {
     setFlag(!flag);
   };
   const confrimDeleteLastRecordOnClick = () => {
-    if (monthSummaryFromApi.length >= 1) {
+    if (monthSummaryFromApi.length > 1 && monthSummaryToApi.length > 1) {
       const temp = [...monthSummaryFromApi];
       temp.splice(-1, 1);
       setMonthSummaryFromApi(temp);
@@ -129,7 +134,7 @@ const WorkTime = ({ date }) => {
         let env = await Connnect();
         await UpdateData(env, "2dBINK71hqO88AAecFFi6n");
       })();
-    }
+    } else return;
 
     setFlag(!flag);
   };
@@ -148,6 +153,7 @@ const WorkTime = ({ date }) => {
         Czas pracy: <span>{dayOverall}</span>
       </h4>
       <button onClick={saveWorkTimeOnClick}>Zapisz godziny</button>
+      <span>{confirmationMessage}</span>
 
       <Summary monthSummaryFromApi={monthSummaryFromApi} />
       <div>

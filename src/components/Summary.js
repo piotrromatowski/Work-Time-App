@@ -7,21 +7,23 @@ const Summary = ({ monthSummaryFromApi }) => {
   const actualYear = currentDate.getFullYear();
   // const actualMonth = "04";
   // console.log(actualMonth);
-  console.log(monthSummaryFromApi);
 
   const monthHoursArr = [];
   if (monthSummaryFromApi) {
-    const foundFullMonthDates = monthSummaryFromApi.forEach(
-      (singleData, index) => {
-        if (index >= 1) {
+    monthSummaryFromApi.forEach((singleData, index) => {
+      if (index >= 1) {
+        if (singleData.date.length === 10) {
           if (singleData.date.slice(3) === `${actualMonth}.${actualYear}`) {
+            monthHoursArr.push(moment.duration(singleData.time).asMinutes());
+          }
+        } else {
+          if (singleData.date.slice(2) === `${actualMonth}.${actualYear}`) {
             monthHoursArr.push(moment.duration(singleData.time).asMinutes());
           }
         }
       }
-    );
+    });
   }
-  console.log(monthHoursArr);
 
   const monthOverall = monthHoursArr.reduce((prev, el) => {
     return prev + el;

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 const History = ({ monthSummaryFromApi }) => {
   const sortedByDateMonthSummaryFromApi = [];
+  const [shortList, setShortList] = useState(5);
 
   if (monthSummaryFromApi) {
     monthSummaryFromApi.map((item, index) => {
@@ -19,11 +20,16 @@ const History = ({ monthSummaryFromApi }) => {
     console.log(sortedByDateMonthSummaryFromApi);
   }
 
+  const shortListMonthSummary = sortedByDateMonthSummaryFromApi.slice(
+    0,
+    shortList
+  );
+
   return (
     <div>
       <div>
-        {sortedByDateMonthSummaryFromApi
-          ? sortedByDateMonthSummaryFromApi.map((history, index) => {
+        {shortListMonthSummary
+          ? shortListMonthSummary.map((history, index) => {
               return (
                 <div key={index}>
                   <h3>{history.date}</h3>
@@ -36,13 +42,14 @@ const History = ({ monthSummaryFromApi }) => {
             })
           : ""}
       </div>
-      <div className="note">
-        <button>Dodaj notatkę</button>
-        <div>
-          <textarea name="" id="" cols="30" rows="10"></textarea>
-          <button>Zapisz</button>
-        </div>
-      </div>
+      <button onClick={() => setShortList(shortList + 5)}>
+        Pokaż 5 więcej
+      </button>
+      <button
+        onClick={() => (shortList !== 0 ? setShortList(shortList - 5) : "")}
+      >
+        Pokaż 5 mniej
+      </button>
     </div>
   );
 };
