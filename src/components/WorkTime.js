@@ -5,6 +5,7 @@ import History from "./History";
 import moment from "moment";
 import { days } from "./Days";
 import { client } from "../Client";
+import "../styles/worktime.css";
 
 const contentfulmanage = require("contentful-management");
 
@@ -77,7 +78,7 @@ const WorkTime = ({ date }) => {
         content_type: "workTimeApp",
       })
       .then((data) => {
-        console.log("data", data.items[0].fields.monthSum);
+        // console.log("data", data.items[0].fields.monthSum);
         setMonthSummaryFromApi(data.items[0].fields.monthSum);
       });
   };
@@ -92,28 +93,28 @@ const WorkTime = ({ date }) => {
 
       setTimeout(() => {
         getData();
-        console.log(monthSummaryFromApi);
+        // console.log(monthSummaryFromApi);
       }, 2000);
     }
     setConfirmationMessage(`
     Zapisano ${dayOverall} godzin do dnia ${date} (${showDay(date)})
   `);
   };
-  console.log(confirmationMessage);
+  // console.log(confirmationMessage);
 
   ///// ADD NEW DATA TO API
   async function Connnect() {
     let client = contentfulmanage.createClient({
-      accessToken: process.env.REACT_APP_PERSONAL_ACCESS_TOKEN,
+      accessToken: "CFPAT-Ysf4XBd_3EXIrJCAJfR5oS4mGQjbw1jYAaYTytNyz54",
     });
-    let space = await client.getSpace(process.env.REACT_APP_SPACE_ID);
+    let space = await client.getSpace("q3smxmystx36");
     return await space.getEnvironment("master");
   }
 
   async function UpdateData(env, apiID) {
     let dataArr = await env.getEntry(apiID);
-    console.log(dataArr.fields.monthSum);
-    console.log(monthSummaryToApi);
+    // console.log(dataArr.fields.monthSum);
+    // console.log(monthSummaryToApi);
     dataArr.fields.monthSum["en-US"] = monthSummaryToApi;
     await dataArr.update();
     dataArr = await env.getEntry(apiID);
@@ -134,14 +135,15 @@ const WorkTime = ({ date }) => {
         let env = await Connnect();
         await UpdateData(env, "2dBINK71hqO88AAecFFi6n");
       })();
+      alert("Usunięto ostatni wpis!");
     } else return;
 
     setFlag(!flag);
   };
 
   return (
-    <div>
-      <div>
+    <div className="worktime__container">
+      <div className="worktime__container-hours">
         <Hours
           setWorkStartHours={setWorkStartHours}
           setWorkFinishHours={setWorkFinishHours}
@@ -149,23 +151,40 @@ const WorkTime = ({ date }) => {
           setWorkFinishMinutes={setWorkFinishMinutes}
         />
       </div>
-      <h4>
-        Czas pracy: <span>{dayOverall}</span>
-      </h4>
+      <h3 className="worktime__container-summary">
+        Czas pracy: <span>{dayOverall > "0:00" ? dayOverall : "Żodyn"}</span>
+      </h3>
       <button onClick={saveWorkTimeOnClick}>Zapisz godziny</button>
-      <span>{confirmationMessage}</span>
+      <span className="worktime__container-span">{confirmationMessage}</span>
 
       <Summary monthSummaryFromApi={monthSummaryFromApi} />
-      <div>
-        <h2>Historia</h2>
-        <button onClick={deleteLastRecordOnClick}>
+      <div className="worktime__container-history">
+        <h2 className="worktime__container-history-title">Historia</h2>
+        <button
+          className="worktime__container-history-btn"
+          onClick={deleteLastRecordOnClick}
+        >
           Usuń ostatni wpis z historii
         </button>
         {flag ? (
-          <div>
-            <p>Na pewno chcesz usunąć ostatni wpis? </p>
-            <button onClick={confrimDeleteLastRecordOnClick}>TAK</button>
-            <button onClick={() => setFlag(!flag)}>NIE</button>
+          <div className="worktime__container-history-delete">
+            <p className="worktime__container-history-message">
+              Na pewno chcesz usunąć ostatni wpis?{" "}
+            </p>
+            <div className="worktime__container-history-btn-wrapper">
+              <button
+                className="worktime__container-history-btn"
+                onClick={confrimDeleteLastRecordOnClick}
+              >
+                TAK
+              </button>
+              <button
+                className="worktime__container-history-btn"
+                onClick={() => setFlag(!flag)}
+              >
+                NIE
+              </button>
+            </div>
           </div>
         ) : (
           ""

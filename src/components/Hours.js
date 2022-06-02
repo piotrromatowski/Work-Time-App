@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/hours.css";
 
 const hours = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 const minutes = [
@@ -84,10 +85,14 @@ const Hours = ({
   };
 
   return (
-    <div>
-      <div>
-        <h2>Rozpoczęcie</h2>
-        <select name="starthours" onChange={onChangeStartHoursHandler}>
+    <div className="hours__container">
+      <div className="hours__container-selection">
+        <h2 className="hours__container-selection-title">Rozpoczęcie</h2>
+        <select
+          className="hours__container-selection-select"
+          name="starthours"
+          onChange={onChangeStartHoursHandler}
+        >
           {hours.map((hour, index) => {
             return (
               <option value={Number(hour)} key={index}>
@@ -96,7 +101,11 @@ const Hours = ({
             );
           })}
         </select>
-        <select name="startminutes" onChange={onChangeStartMinutesHandler}>
+        <select
+          className="hours__container-selection-select"
+          name="startminutes"
+          onChange={onChangeStartMinutesHandler}
+        >
           {minutes.map((minute, index) => {
             return (
               <option value={Number(minute)} key={index}>
@@ -106,21 +115,37 @@ const Hours = ({
           })}
         </select>
       </div>
-      <div>
-        <h2>Zakończenie</h2>
-        <select name="finishhours" onChange={onChangeFinishtHoursHandler}>
+      <div className="hours__container-selection">
+        <h2 className="hours__container-selection-title">Zakończenie</h2>
+        <select
+          className="hours__container-selection-select"
+          name="finishhours"
+          onChange={onChangeFinishtHoursHandler}
+        >
           {hours.map((hour, index) => {
             return (
-              <option value={Number(hour)} key={index}>
+              <option
+                className="hours__container-selection-select-option"
+                value={Number(hour)}
+                key={index}
+              >
                 {hour}
               </option>
             );
           })}
         </select>
-        <select name="finishminutes" onChange={onChangeFinishMinutesHandler}>
+        <select
+          className="hours__container-selection-select"
+          name="finishminutes"
+          onChange={onChangeFinishMinutesHandler}
+        >
           {minutes.map((minute, index) => {
             return (
-              <option value={Number(minute)} key={index}>
+              <option
+                className="hours__container-selection-select-option"
+                value={Number(minute)}
+                key={index}
+              >
                 {minute}
               </option>
             );

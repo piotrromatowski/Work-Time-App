@@ -1,4 +1,4 @@
-import "./App.css";
+import "./index.css";
 
 import WorkTime from "./components/WorkTime";
 import Days from "./components/Days";
@@ -20,11 +20,10 @@ function App() {
   ];
 
   return (
-    <div className="App">
-      <div>
-        <Days />
-        <WorkTime date={date} day={day} days={days} />
-      </div>
+    <div className="container">
+      <h1>GODZINY PRACY</h1>
+      <Days />
+      <WorkTime date={date} day={day} days={days} />
     </div>
   );
 }

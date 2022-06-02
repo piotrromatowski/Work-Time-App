@@ -1,0 +1,13 @@
+.summary__container{
+    border-top: 2px solid var(--color-primary-variant);
+}
+.summary__container-title{
+    margin: 1rem 0rem;
+}
+
+.summary__container-hours{
+    color: var(--color-primary-variant);
+    font-weight: 700;
+    font-size: 2rem;
+    
+}

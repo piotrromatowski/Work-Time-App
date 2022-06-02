@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import "../styles/summary.css";
 
 const Summary = ({ monthSummaryFromApi }) => {
   const currentDate = new Date();
@@ -33,11 +34,11 @@ const Summary = ({ monthSummaryFromApi }) => {
   let hours = (monthOverall - minutes) / 60;
 
   return (
-    <div>
-      <div>
-        <h3>Suma godzin w miesiącu:</h3>
-        <span>{hours + ":" + ("0" + minutes).slice(-2)}</span>
-      </div>
+    <div className="summary__container">
+      <h3 className="summary__container-title">Suma godzin w miesiącu:</h3>
+      <span className="summary__container-hours">
+        {hours + ":" + ("0" + minutes).slice(-2)}
+      </span>
     </div>
   );
 };

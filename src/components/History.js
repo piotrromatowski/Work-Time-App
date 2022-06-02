@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/history.css";
 
 const History = ({ monthSummaryFromApi }) => {
   const sortedByDateMonthSummaryFromApi = [];
@@ -15,9 +16,9 @@ const History = ({ monthSummaryFromApi }) => {
         time: item.time,
       });
     });
-    console.log(sortedByDateMonthSummaryFromApi);
+    // console.log(sortedByDateMonthSummaryFromApi);
     sortedByDateMonthSummaryFromApi.sort((a, b) => b.id - a.id);
-    console.log(sortedByDateMonthSummaryFromApi);
+    // console.log(sortedByDateMonthSummaryFromApi);
   }
 
   const shortListMonthSummary = sortedByDateMonthSummaryFromApi.slice(
@@ -26,30 +27,38 @@ const History = ({ monthSummaryFromApi }) => {
   );
 
   return (
-    <div>
-      <div>
+    <div className="history__container">
+      <div className="history__container-single-day-wrapper">
         {shortListMonthSummary
           ? shortListMonthSummary.map((history, index) => {
               return (
-                <div key={index}>
+                <div className="history__container-single-day" key={index}>
                   <h3>{history.date}</h3>
                   <h4>{history.day}</h4>
                   {history.start ? <p>Rozpoczęcie: {history.start}</p> : ""}
                   {history.finish ? <p>Zakończenie: {history.finish}</p> : ""}
-                  {history.time ? <p>Liczba godzin: {history.time}</p> : ""}
+                  {history.time ? (
+                    <p className="history__container-single-day-hours-summary">
+                      Liczba godzin: {history.time}
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </div>
               );
             })
           : ""}
       </div>
-      <button onClick={() => setShortList(shortList + 5)}>
-        Pokaż 5 więcej
-      </button>
-      <button
-        onClick={() => (shortList !== 0 ? setShortList(shortList - 5) : "")}
-      >
-        Pokaż 5 mniej
-      </button>
+      <div className="history__container-buttons">
+        <button onClick={() => setShortList(shortList + 5)}>
+          Pokaż 5 więcej
+        </button>
+        <button
+          onClick={() => (shortList !== 0 ? setShortList(shortList - 5) : "")}
+        >
+          Pokaż 5 mniej
+        </button>
+      </div>
     </div>
   );
 };

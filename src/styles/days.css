@@ -1,0 +1,10 @@
+.days__container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+    border-top: 2px solid var(--color-primary);
+    margin-top: .5rem;
+    padding-top: 1rem;
+}

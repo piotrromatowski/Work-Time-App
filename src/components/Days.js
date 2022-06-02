@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/days.css";
 
 export const days = [
   "Poniedziałek",
@@ -17,9 +18,10 @@ const Days = () => {
   const day = current.getDay();
 
   return (
-    <div>
-      <h3>{days[day - 1]}</h3>
-      <h4>{date}</h4>
+    <div className="days__container">
+      <h2>Dziś jest: </h2>
+      <h2>{days[day - 1]}</h2>
+      <h2>{date}</h2>
     </div>
   );
 };
